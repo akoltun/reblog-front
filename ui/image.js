@@ -1,4 +1,4 @@
-const Image = opts => React.createElement('img', opts);
+const Image = props => React.createElement('img', Object.assign({}, props));
 
 ReactDOM.render(
   React.createElement(Image, {
