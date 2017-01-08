@@ -2,14 +2,29 @@ import React from 'react';
 
 import TextBox from './elements/TextBox';
 import Image from './elements/Image';
-import Author from './elements/Author';
+import Meta from './elements/Meta';
+import {Divider, Segment} from 'semantic-ui-react';
 
-const BlogItem = ({ children, image, info:{author} }) => (
-  <div style={{clear: 'left', paddingTop: 10}}>
-    <Image src={image} height="64" style={{marginRight:10, float: 'left'}}/>
-    <TextBox>{children}</TextBox>
-    <Author>{author}</Author>
-  </div>
+const BlogItem = ({item}) => (
+  <Segment>
+    <Image {...Object.assign(imageDefaultStyle, item.image)} />
+    <TextBox>{item.text}</TextBox>
+    <Divider clearing />
+    <Meta {...item.meta} />
+  </Segment>
 );
+
+const blogItemStyle = {
+  clear: 'left',
+  paddingTop: 10
+};
+
+const imageDefaultStyle = {
+  height: 64,
+  style: {
+    marginRight: 10,
+    float: 'left'
+  }
+};
 
 export default BlogItem;

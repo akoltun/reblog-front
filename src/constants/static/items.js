@@ -1,23 +1,29 @@
 export const items = [
   {
-    text: "Это значок Реакта (хотя он и не совсем фрэймворк)"
-    ,image: "https://facebook.github.io/react/img/logo.svg"
-    ,info: {
-      author: "Марк Цукерберг"
+    text: 'Это значок Реакта (хотя он и не совсем фрэймворк)'
+    ,image: { src: '/dist/images/react.svg' }
+    ,meta: {
+      author: 'Марк Цукерберг'
+      ,created: new Date(2016, 5, 3, 21, 30)
+      ,updated: '2016-07-02T03:32'
     }
   },
   {
-    text: "А это конкурирующий фрэймворк"
-    ,image: "https://angular.io/resources/images/logos/angular2/angular.svg"
-    ,info: {
-      author: "Сергей Брин"
+    text: 'А это конкурирующий фрэймворк'
+    ,image: { src: '/dist/images/angular.svg' }
+    ,meta: {
+      author: 'Сергей Брин'
+      ,created: '2016-08-21T16:32'
+      ,updated: '2016-08-24T13:42'
     }
   },
   {
-    text: "А это еще один фрэймворк"
-    ,image: "http://aurelia.io/images/main-logo.svg"
-    ,info: {
-      author: "Роб Эйзенберг"
+    text: 'А это еще один фрэймворк'
+    ,image: { src: '/dist/images/aurelia.svg' }
+    ,meta: {
+      author: 'Роб Эйзенберг'
+      ,created: '2016-11-22T15:34'
+      ,updated: '2016-12-10T12:54'
     }
   },
 ];
