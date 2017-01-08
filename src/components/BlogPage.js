@@ -2,6 +2,8 @@ import React from 'react';
 
 import { items as staticItems } from 'constants/static/items';
 
+import { Button } from 'semantic-ui-react';
+
 import BlogList from 'components/widgets/blog/List';
 
 class BlogPage extends React.Component {
@@ -14,11 +16,8 @@ class BlogPage extends React.Component {
     const { items } = this.state;
     // return React.createElement(BlogList, { items: items });
     return (
-      <p>Test</p>
+      <BlogList items={items} />
     );
-    // return (
-    //   <BlogList items={items} />
-    // );
   }
 }
 

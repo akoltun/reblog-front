@@ -2,10 +2,10 @@ import React from 'react';
 
 import BlogItem from './Item';
 
-const BlogList = ({ list }) => (
+const BlogList = ({ items }) => (
   <div>
-    {list.map(({text, ...others}, index) => (
-      <BlogItem key={index} {...others}>{text}</BlogItem>
+    {items.map((item, index) => (
+      <BlogItem key={index} item={item} />
     ))}
   </div>
 );
