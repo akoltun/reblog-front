@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import TextBox from './elements/TextBox';
 import Image from './elements/Image';
@@ -14,17 +14,20 @@ const BlogItem = ({item}) => (
   </Segment>
 );
 
-const blogItemStyle = {
-  clear: 'left',
-  paddingTop: 10
-};
-
 const imageDefaultStyle = {
   height: 64,
   style: {
     marginRight: 10,
     float: 'left'
   }
+};
+
+BlogItem.propTypes = {
+  item: PropTypes.shape({
+    image: PropTypes.object,
+    text: PropTypes.string,
+    meta: PropTypes.object
+  })
 };
 
 export default BlogItem;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import moment from 'moment';
 
@@ -10,5 +10,9 @@ const DateTime = ({children}) => (
     {moment(children).format(DEFAULT_DATE_TIME_FORMAT)}
   </span>
 );
+
+DateTime.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
+};
 
 export default DateTime;
