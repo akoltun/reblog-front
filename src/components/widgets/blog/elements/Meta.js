@@ -2,14 +2,10 @@ import React, { PropTypes } from 'react';
 
 import DateTime from './DateTime';
 import Like from './Like';
-//const Meta = ({author, created, updated}) => React.createElement('ul', null, [
-//   React.createElement('li', {key: 'author'}, `Автор: ${author}`),
-//   React.createElement('li', {key: 'created'}, `Создано: ${created}`),
-//   React.createElement('li', {key: 'updated'}, `Обновлено: ${updated}`)
-// ]);
-const Meta = ({author, created, updated, like}) => (
+
+const Meta = ({author, created, updated, like, likeCallback}) => (
   <ul>
-    <li><Like like={like} /></li>
+    <li><Like like={like} likeCallback={likeCallback} /></li>
     <li>Автор: {author}</li>
     <li>Создано: <DateTime>{created}</DateTime></li>
     <li>Обновлено: <DateTime>{updated}</DateTime></li>
@@ -23,8 +19,9 @@ Like.defaultProps = {
   updated: new Date()
 };
 
-DateTime.propTypes = {
+Meta.propTypes = {
   like: PropTypes.number,
+  likeCallback: PropTypes.func,
   author: PropTypes.string,
   created: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   updated: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
