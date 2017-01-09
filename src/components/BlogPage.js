@@ -5,6 +5,7 @@ import { items as staticItems } from 'constants/static/items';
 import { cloneDeep } from 'lodash';
 
 import BlogList from 'components/widgets/blog/List';
+import PieChart from 'components/widgets/blog/PieChart';
 
 class BlogPage extends React.Component {
   constructor(props) {
@@ -29,8 +30,14 @@ class BlogPage extends React.Component {
 
   render() {
     const { items } = this.state;
+    const pieChartData = items.map(
+      (item) => ([item.text, item.meta.like || 0])
+    );
     return (
-      <BlogList items={items} likeCallback={this.likePost} />
+      <div>
+        <PieChart data={pieChartData} />
+        <BlogList items={items} likeCallback={this.likePost} />
+      </div>
     );
   }
 }
