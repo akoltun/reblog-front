@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react';
 
 import BlogItem from './Item';
 
-const BlogList = ({ items }) => (
+const BlogList = ({ items, ...others }) => (
   <div>
     {items.map((item) => (
-      <BlogItem key={item.id} item={item} />
+      <BlogItem key={item.id} item={item} {...others} />
     ))}
   </div>
 );
