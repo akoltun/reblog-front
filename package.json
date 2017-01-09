@@ -37,6 +37,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "c3": "^0.4.11",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "react": "^15.4.1",
