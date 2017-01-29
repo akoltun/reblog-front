@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { items as staticItems } from 'constants/static/items';
+import request from 'superagent';
 
 import { cloneDeep } from 'lodash';
 
@@ -10,8 +9,20 @@ import PieChart from 'components/widgets/blog/PieChart';
 class BlogPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { items: staticItems };
+    this.state = { items: [] };
     this.likePost = this.likePost.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchPosts();
+  }
+
+  fetchPosts() {
+    request.get(
+      'http://localhost:3002/',
+      {},
+      (err, res) => this.setState({ items: res.body })
+    );
   }
 
   likePost(id) {
