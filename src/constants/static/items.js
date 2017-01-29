@@ -1,6 +1,7 @@
 export const items = [
   {
     id: 1
+    ,title: 'Реакт'
     ,text: 'Это значок Реакта (хотя он и не совсем фрэймворк)'
     ,image: { src: '/dist/images/react.svg' }
     ,meta: {
@@ -12,6 +13,7 @@ export const items = [
   },
   {
     id: 2
+    ,title: 'Ангуляр'
     ,text: 'А это конкурирующий фрэймворк'
     ,image: { src: '/dist/images/angular.svg' }
     ,meta: {
@@ -22,6 +24,7 @@ export const items = [
   },
   {
     id: 3
+    ,title: 'Аурелия'
     ,text: 'А это еще один фрэймворк'
     ,image: { src: '/dist/images/aurelia.svg' }
     ,meta: {
