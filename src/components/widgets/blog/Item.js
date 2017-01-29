@@ -4,6 +4,8 @@ import TextBox from './elements/TextBox';
 import Image from './elements/Image';
 import Meta from './elements/Meta';
 import { Item } from 'semantic-ui-react';
+import Link from 'components/elements/Link';
+import { postPath } from 'helpers/routes';
 
 class BlogItem extends React.Component {
   constructor(props) {
@@ -22,7 +24,9 @@ class BlogItem extends React.Component {
 
         <Item.Content>
           <Item.Header as='h2'>
+            <Link to={postPath(this.props.item.id)}>
               {this.props.item.title}
+            </Link>
           </Item.Header>
 
           <Item.Description>

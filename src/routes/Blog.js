@@ -2,13 +2,15 @@ import BlogPage from 'components/BlogPage';
 import PostPage from 'components/PostPage';
 import MainLayout from 'components/layouts/MainLayout';
 
+import { postPath } from 'helpers/routes';
+
 const IndexRoute = {
   path: '/',
   component: BlogPage
 };
 
 const PostRoute = {
-  path: '/posts/:id',
+  path: postPath(),
   component: PostPage
 };
 
