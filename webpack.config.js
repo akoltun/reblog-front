@@ -7,6 +7,8 @@ var webpack = require('webpack');
 var root = path.join(process.cwd(), 'src');
 
 module.exports = {
+  devtool: 'source-map',
+
   entry: [
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:3001',
