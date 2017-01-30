@@ -6,6 +6,8 @@ import { cloneDeep } from 'lodash';
 import BlogList from 'components/widgets/blog/List';
 import PieChart from 'components/widgets/blog/PieChart';
 
+import { Grid } from 'semantic-ui-react';
+
 class BlogPage extends React.Component {
   constructor(props) {
     super(props);
@@ -45,10 +47,17 @@ class BlogPage extends React.Component {
       (item) => ([item.text, item.meta.like || 0])
     );
     return (
-      <div>
-        <PieChart data={pieChartData} />
-        <BlogList items={items} likeCallback={this.likePost} />
-      </div>
+      <Grid columns={2} divided>
+        <Grid.Row>
+          <Grid.Column width={10}>
+            <BlogList items={items} likeCallback={this.likePost} />
+          </Grid.Column>
+
+          <Grid.Column width={6}>
+            <PieChart data={pieChartData} />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }
