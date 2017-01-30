@@ -17,18 +17,22 @@ class PostPage extends React.Component {
     this.fetchPost(this.props.params.id - 1);
   }
 
-  fetchPosts(callback) {
-    request.get(
-      'http://localhost:3002/',
-      {},
-      (err, res) => callback(err, res)
-    );
+  fetchPosts() {
+    return new Promise(function(resolve, reject) {
+      request.get(
+        'http://localhost:3002/',
+        {},
+        (err, res) => err ? reject(err) : resolve(res.body)
+      );
+    });
   }
 
   fetchPost(id) {
-    this.fetchPosts(
-      (err, res) => this.setState({ item: res.body[id] })
-    );
+    this
+      .fetchPosts()
+      .then(
+        posts => this.setState({ item: posts[id] })
+      );
   }
 
   render() {
