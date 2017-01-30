@@ -1,8 +1,9 @@
 import BlogPage from 'components/BlogPage';
 import PostPage from 'components/PostPage';
+import AboutPage from 'components/AboutPage';
 import MainLayout from 'components/layouts/MainLayout';
 
-import { postPath } from 'helpers/routes';
+import { postPath, aboutPath } from 'helpers/routes';
 
 const IndexRoute = {
   path: '/',
@@ -14,10 +15,16 @@ const PostRoute = {
   component: PostPage
 };
 
+const AboutRoute = {
+  path: aboutPath(),
+  component: AboutPage
+};
+
 export default {
   component: MainLayout,
   childRoutes: [
     IndexRoute,
-    PostRoute
+    PostRoute,
+    AboutRoute
   ]
 };
