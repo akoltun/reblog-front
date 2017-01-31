@@ -14,7 +14,11 @@ class PostPage extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchPost(this.props.params.id - 1);
+    this
+      .fetchPosts
+      .then(
+        posts => this.setState({ item: posts[this.props.params.id - 1] })
+      );
   }
 
   fetchPosts() {
@@ -26,14 +30,14 @@ class PostPage extends React.Component {
       );
     });
   }
-
-  fetchPost(id) {
-    this
-      .fetchPosts()
-      .then(
-        posts => this.setState({ item: posts[id] })
-      );
-  }
+  // 
+  // fetchPost(id) {
+  //   this
+  //     .fetchPosts()
+  //     .then(
+  //       posts => this.setState({ item: posts[id] })
+  //     );
+  // }
 
   render() {
     const {item} = this.state;

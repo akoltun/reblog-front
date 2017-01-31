@@ -1,32 +1,47 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import request from 'superagent';
+import qs from 'qs';
 
 import { cloneDeep } from 'lodash';
+import { browserHistory as history } from 'react-router';
 
 import BlogList from 'components/widgets/blog/List';
 import PieChart from 'components/widgets/blog/PieChart';
 import Search from 'components/widgets/blog/Search';
+import { postsPath } from 'helpers/routes';
 
 import { Grid } from 'semantic-ui-react';
 
 class BlogPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { items: [], filteredItems: [] };
+    this.state = { items: [] };
     this.likePost = this.likePost.bind(this);
     this.doSearch = this.doSearch.bind(this);
   }
 
   componentDidMount() {
-    this.fetchPosts();
+    this
+      .fetchPosts()
+      .then(posts => this.setState({ items: posts }));
+  }
+
+  queryParams() {
+    return qs.parse(this.props.location.search.slice(1));
+  }
+
+  searchString(props) {
+    return qs.parse(props.location.search.slice(1)).search || '';
   }
 
   fetchPosts() {
-    request.get(
-      'http://localhost:3002/',
-      {},
-      (err, res) => this.setState({ items: res.body, filteredItems: res.body })
-    );
+    return new Promise(function(resolve, reject) {
+      request.get(
+        'http://localhost:3002/',
+        {},
+        (err, res) => err ? reject(err) : resolve(res.body)
+      );
+    });
   }
 
   likePost(id) {
@@ -44,21 +59,29 @@ class BlogPage extends React.Component {
   }
 
   doSearch(event) {
-    const { items } = this.state;
-    const searchStr = event.currentTarget.value.toUpperCase();
+    const path = postsPath(Object.assign(
+      {},
+      this.queryParams(),
+      {search: event.currentTarget.value || undefined}
+    ));
 
-    this.setState({
-      filteredItems: searchStr ? items.filter(
-        item => ~item.title.toUpperCase().indexOf(searchStr)
-      ) : items
-    });
+    if ('search' in qs.parse(history.getCurrentLocation().search.slice(1))) {
+      history.replace(path);
+    } else {
+      history.push(path);
+    }
   }
 
   render() {
-    const { filteredItems } = this.state;
+    const searchStr = (this.queryParams().search || '').toUpperCase();
+    const { items } = this.state;
+    const filteredItems = searchStr ? items.filter(
+      item => ~item.title.toUpperCase().indexOf(searchStr)
+    ) : items;
     const pieChartData = filteredItems.map(
       (item) => ([item.text, item.meta.like || 0])
     );
+
     return (
       <Grid columns={2} divided>
         <Grid.Row>
@@ -80,5 +103,9 @@ class BlogPage extends React.Component {
     );
   }
 }
+
+BlogPage.propTypes = {
+  location: PropTypes.object
+};
 
 export default BlogPage;
