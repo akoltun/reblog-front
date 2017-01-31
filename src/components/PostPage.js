@@ -30,14 +30,6 @@ class PostPage extends React.Component {
       );
     });
   }
-  // 
-  // fetchPost(id) {
-  //   this
-  //     .fetchPosts()
-  //     .then(
-  //       posts => this.setState({ item: posts[id] })
-  //     );
-  // }
 
   render() {
     const {item} = this.state;

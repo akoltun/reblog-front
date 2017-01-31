@@ -18,6 +18,7 @@ class BlogPage extends React.Component {
     this.state = { items: [] };
     this.likePost = this.likePost.bind(this);
     this.doSearch = this.doSearch.bind(this);
+    this.changePage = this.changePage.bind(this);
   }
 
   componentDidMount() {
@@ -72,8 +73,20 @@ class BlogPage extends React.Component {
     }
   }
 
+  changePage(page) {
+    const path = postsPath(Object.assign(
+      {},
+      this.queryParams(),
+      {page}
+    ));
+
+    history.push(path);
+  }
+
   render() {
-    const searchStr = (this.queryParams().search || '').toUpperCase();
+    const params = this.queryParams();
+    const page = params.page || 1;
+    const searchStr = (params.search || '').toUpperCase();
     const { items } = this.state;
     const filteredItems = searchStr ? items.filter(
       item => ~item.title.toUpperCase().indexOf(searchStr)
@@ -86,7 +99,11 @@ class BlogPage extends React.Component {
       <Grid columns={2} divided>
         <Grid.Row>
           <Grid.Column width={10}>
-            <BlogList items={filteredItems} likeCallback={this.likePost} />
+            <BlogList
+              items={filteredItems}
+              likeCallback={this.likePost}
+              page={+page}
+              changePage={this.changePage}/>
           </Grid.Column>
 
           <Grid.Column width={6}>
