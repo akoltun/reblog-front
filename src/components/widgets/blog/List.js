@@ -32,9 +32,9 @@ class BlogList extends React.Component {
           </div>
         ))}
         {pageCount > 1 && (
-          <Menu pagination key={0}>
+          <Menu pagination>
             {Array.apply(null, {length: pageCount}).map((n,i) => (
-              <Menu.Item
+              <Menu.Item key={i}
                 name={String(i + 1)}
                 active={page == i + 1}
                 onClick={this.changePage} />
