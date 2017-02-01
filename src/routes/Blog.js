@@ -1,6 +1,6 @@
-import BlogPage from 'components/BlogPage';
-import PostPage from 'components/PostPage';
-import AboutPage from 'components/AboutPage';
+import BlogPage from 'components/containers/BlogPage';
+import PostPage from 'components/containers/PostPage';
+import AboutPage from 'components/containers/AboutPage';
 import MainLayout from 'components/layouts/MainLayout';
 
 import { postPath, aboutPath } from 'helpers/routes';
