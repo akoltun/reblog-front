@@ -6,11 +6,13 @@ import { cloneDeep } from 'lodash';
 import { browserHistory as history } from 'react-router';
 
 import BlogList from 'components/widgets/blog/List';
+import Pagination from 'components/elements/Pagination';
 import PieChart from 'components/widgets/blog/PieChart';
 import Search from 'components/widgets/blog/Search';
 import { postsPath, postPath } from 'helpers/routes';
 
 import { Grid } from 'semantic-ui-react';
+import { PAGE_SIZE } from 'constants/Pagination';
 
 class BlogPage extends React.Component {
   constructor(props) {
@@ -97,16 +99,27 @@ class BlogPage extends React.Component {
     const pieChartData = filteredItems.map(
       (item) => ([item.text, item.meta.like || 0])
     );
+    const pageSize = PAGE_SIZE;
+    const pageCount = Math.ceil(filteredItems.length / pageSize);
+    const firstIndex = (page - 1) * pageSize;
+    const lastIndex = firstIndex + pageSize - 1;
+    const paginatedItems = filteredItems.filter(
+      (item, index) => firstIndex <= index && index <= lastIndex
+    );
+    const links = Array.apply(null, {length: pageCount}).map((n,i) => (
+      postsPath(Object.assign({}, params, {page: i + 1}))
+    ));
 
     return (
       <Grid columns={2} divided>
         <Grid.Row>
           <Grid.Column width={10}>
             <BlogList
-              items={filteredItems}
-              likeCallback={this.likePost}
+              items={paginatedItems}
+              likeCallback={this.likePost}/>
+            <Pagination
               page={+page}
-              changePage={this.changePage}/>
+              links={links} />
           </Grid.Column>
 
           <Grid.Column width={6}>
