@@ -15,7 +15,7 @@ class PostPage extends React.Component {
 
   componentDidMount() {
     this
-      .fetchPosts
+      .fetchPosts()
       .then(
         posts => this.setState({ item: posts[this.props.params.id - 1] })
       );
