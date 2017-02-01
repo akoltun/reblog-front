@@ -8,7 +8,7 @@ import { browserHistory as history } from 'react-router';
 import BlogList from 'components/widgets/blog/List';
 import PieChart from 'components/widgets/blog/PieChart';
 import Search from 'components/widgets/blog/Search';
-import { postsPath } from 'helpers/routes';
+import { postsPath, postPath } from 'helpers/routes';
 
 import { Grid } from 'semantic-ui-react';
 
@@ -24,7 +24,10 @@ class BlogPage extends React.Component {
   componentDidMount() {
     this
       .fetchPosts()
-      .then(posts => this.setState({ items: posts }));
+      .then(posts => {
+        posts.forEach(post => post.link = postPath(post.id));
+        this.setState({ items: posts });
+      });
   }
 
   queryParams() {
