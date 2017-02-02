@@ -2,23 +2,25 @@ import React, { PropTypes } from 'react';
 
 import { Grid } from 'semantic-ui-react';
 import BlogList from 'components/widgets/blog/List';
-import Pagination from 'components/elements/Pagination';
 import PieChart from 'components/widgets/blog/PieChart';
 import Search from 'components/widgets/blog/Search';
+import Paginator from 'components/widgets/blog/Paginator';
 
 const BlogPageView = (
-  { listItems, likeItem, page, pageLinks, search, chartItems }
+  { items, likeItem, page, link, params, search }
 ) => (
   <Grid columns={2} divided>
     <Grid.Row>
-      <Grid.Column width={10}>
-        <BlogList
-          items={listItems}
-          likeCallback={likeItem}/>
-        <Pagination
-          page={page}
-          links={pageLinks} />
-      </Grid.Column>
+      <Paginator
+        as={Grid.Column}
+        attrs={{width: 10}}
+        page={page}
+        items={items}
+        link={link}
+        params={params}
+        list={BlogList}
+        listAttrs={{likeCallback: likeItem}}
+        />
 
       <Grid.Column width={6}>
         <Grid.Row>
@@ -26,7 +28,7 @@ const BlogPageView = (
         </Grid.Row>
 
         <Grid.Row>
-          <PieChart items={chartItems} />
+          <PieChart items={items} />
         </Grid.Row>
       </Grid.Column>
     </Grid.Row>
@@ -34,12 +36,12 @@ const BlogPageView = (
 );
 
 BlogPageView.propTypes = {
-  listItems: PropTypes.array,
+  items: PropTypes.array,
   likeItem: PropTypes.func,
   page: PropTypes.number,
-  pageLinks: PropTypes.array,
-  search: PropTypes.func,
-  chartItems: PropTypes.array
+  link: PropTypes.string,
+  params: PropTypes.object,
+  search: PropTypes.func
 };
 
 export default BlogPageView;

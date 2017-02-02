@@ -8,15 +8,12 @@ import { browserHistory as history } from 'react-router';
 import BlogPageView from 'components/widgets/blog/PageView';
 import { postsPath, postPath } from 'helpers/routes';
 
-import { PAGE_SIZE } from 'constants/Pagination';
-
 class BlogPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = { items: [] };
     this.likePost = this.likePost.bind(this);
     this.doSearch = this.doSearch.bind(this);
-    this.changePage = this.changePage.bind(this);
   }
 
   componentDidMount() {
@@ -74,16 +71,6 @@ class BlogPage extends React.Component {
     }
   }
 
-  changePage(page) {
-    const path = postsPath(Object.assign(
-      {},
-      this.queryParams(),
-      {page}
-    ));
-
-    history.push(path);
-  }
-
   render() {
     const params = this.queryParams();
     const page = params.page || 1;
@@ -95,26 +82,14 @@ class BlogPage extends React.Component {
       item => ~item.title.toUpperCase().indexOf(searchStr)
     ) : items;
 
-    const pageSize = PAGE_SIZE;
-    const pageCount = Math.ceil(filteredItems.length / pageSize);
-    const firstIndex = (page - 1) * pageSize;
-    const lastIndex = firstIndex + pageSize - 1;
-    const paginatedItems = filteredItems.filter(
-      (item, index) => firstIndex <= index && index <= lastIndex
-    );
-
-    const links = Array.apply(null, {length: pageCount}).map((n,i) => (
-      postsPath(Object.assign({}, params, {page: i + 1}))
-    ));
-
     return (
       <BlogPageView
-        listItems={paginatedItems}
+        items={filteredItems}
         likeItem={this.likePost}
         page={+page}
-        pageLinks={links}
+        link={postsPath()}
+        params={params}
         search={this.doSearch}
-        chartItems={filteredItems}
         />
     );
   }
