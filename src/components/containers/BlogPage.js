@@ -5,13 +5,9 @@ import qs from 'qs';
 import { cloneDeep } from 'lodash';
 import { browserHistory as history } from 'react-router';
 
-import BlogList from 'components/widgets/blog/List';
-import Pagination from 'components/elements/Pagination';
-import PieChart from 'components/widgets/blog/PieChart';
-import Search from 'components/widgets/blog/Search';
+import BlogPageView from 'components/widgets/blog/PageView';
 import { postsPath, postPath } from 'helpers/routes';
 
-import { Grid } from 'semantic-ui-react';
 import { PAGE_SIZE } from 'constants/Pagination';
 
 class BlogPage extends React.Component {
@@ -92,13 +88,13 @@ class BlogPage extends React.Component {
     const params = this.queryParams();
     const page = params.page || 1;
     const searchStr = (params.search || '').toUpperCase();
+
     const { items } = this.state;
+
     const filteredItems = searchStr ? items.filter(
       item => ~item.title.toUpperCase().indexOf(searchStr)
     ) : items;
-    const pieChartData = filteredItems.map(
-      (item) => ([item.text, item.meta.like || 0])
-    );
+
     const pageSize = PAGE_SIZE;
     const pageCount = Math.ceil(filteredItems.length / pageSize);
     const firstIndex = (page - 1) * pageSize;
@@ -106,33 +102,23 @@ class BlogPage extends React.Component {
     const paginatedItems = filteredItems.filter(
       (item, index) => firstIndex <= index && index <= lastIndex
     );
+    const pieChartData = filteredItems.map(
+      (item) => ([item.text, item.meta.like || 0])
+    );
+
     const links = Array.apply(null, {length: pageCount}).map((n,i) => (
       postsPath(Object.assign({}, params, {page: i + 1}))
     ));
 
     return (
-      <Grid columns={2} divided>
-        <Grid.Row>
-          <Grid.Column width={10}>
-            <BlogList
-              items={paginatedItems}
-              likeCallback={this.likePost}/>
-            <Pagination
-              page={+page}
-              links={links} />
-          </Grid.Column>
-
-          <Grid.Column width={6}>
-            <Grid.Row>
-              <Search onChange={this.doSearch}/>
-            </Grid.Row>
-
-            <Grid.Row>
-              <PieChart data={pieChartData} />
-            </Grid.Row>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+      <BlogPageView
+        listItems={paginatedItems}
+        likeItem={this.likePost}
+        page={+page}
+        pageLinks={links}
+        search={this.doSearch}
+        chartItems={pieChartData}
+        />
     );
   }
 }
