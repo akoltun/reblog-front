@@ -89,7 +89,8 @@ class BlogPage extends React.Component {
         page={+page}
         link={postsPath()}
         params={params}
-        search={this.doSearch}
+        search={params.search}
+        searchCallback={this.doSearch}
         />
     );
   }

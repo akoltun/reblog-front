@@ -7,7 +7,7 @@ import Search from 'components/widgets/blog/Search';
 import Paginator from 'components/widgets/blog/Paginator';
 
 const BlogPageView = (
-  { items, likeItem, page, link, params, search }
+  { items, likeItem, page, link, params, search, searchCallback }
 ) => (
   <Grid columns={2} divided>
     <Grid.Row>
@@ -24,7 +24,7 @@ const BlogPageView = (
 
       <Grid.Column width={6}>
         <Grid.Row>
-          <Search onChange={search}/>
+          <Search defaultValue={search} onChange={searchCallback}/>
         </Grid.Row>
 
         <Grid.Row>
@@ -41,7 +41,8 @@ BlogPageView.propTypes = {
   page: PropTypes.number,
   link: PropTypes.string,
   params: PropTypes.object,
-  search: PropTypes.func
+  search: PropTypes.string,
+  searchCallback: PropTypes.func
 };
 
 export default BlogPageView;
