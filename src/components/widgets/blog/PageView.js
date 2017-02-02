@@ -26,7 +26,7 @@ const BlogPageView = (
         </Grid.Row>
 
         <Grid.Row>
-          <PieChart data={chartItems} />
+          <PieChart items={chartItems} />
         </Grid.Row>
       </Grid.Column>
     </Grid.Row>

@@ -102,9 +102,6 @@ class BlogPage extends React.Component {
     const paginatedItems = filteredItems.filter(
       (item, index) => firstIndex <= index && index <= lastIndex
     );
-    const pieChartData = filteredItems.map(
-      (item) => ([item.text, item.meta.like || 0])
-    );
 
     const links = Array.apply(null, {length: pageCount}).map((n,i) => (
       postsPath(Object.assign({}, params, {page: i + 1}))
@@ -117,7 +114,7 @@ class BlogPage extends React.Component {
         page={+page}
         pageLinks={links}
         search={this.doSearch}
-        chartItems={pieChartData}
+        chartItems={filteredItems}
         />
     );
   }
