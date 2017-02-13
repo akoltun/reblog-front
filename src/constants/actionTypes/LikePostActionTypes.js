@@ -1,0 +1,3 @@
+export const SEND_LIKE_REQUEST  = 'SEND_LIKE_REQUEST';
+export const SEND_LIKE_SUCCESS  = 'SEND_LIKE_SUCCESS';
+export const SEND_LIKE_ERROR    = 'SEND_LIKE_ERROR';
