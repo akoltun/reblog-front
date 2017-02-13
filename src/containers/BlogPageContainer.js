@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-// import { assign, mapValues } from 'lodash/object';
 
 import BlogPage from 'components/pages/BlogPage';
 import { likePost } from 'actions/Like';
