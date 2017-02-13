@@ -12,7 +12,7 @@ class SearchContrainer extends React.Component {
   }
 
   doSearch(event) {
-    const path = this.props.createLink({
+    const path = this.props.onChange({
       search: event.currentTarget.value || undefined
     });
 
@@ -32,7 +32,7 @@ class SearchContrainer extends React.Component {
 
 SearchContrainer.propTypes = {
   search: PropTypes.string,
-  createLink: PropTypes.func
+  onChange: PropTypes.func
 };
 
 export default SearchContrainer;

@@ -9,15 +9,10 @@ import PaginatedListContainer
 import PaginatorContainer from 'components/containers/PaginatorContainer';
 import SearchContainer from 'components/containers/SearchContainer';
 import PieChartContainer from 'components/containers/PieChartContainer';
-import { queryString, postsPath } from 'helpers/routes';
 import { PAGE_SIZE } from 'constants/Pagination';
 
-const createLink = (linkParams) => (params) => (
-  postsPath() + queryString(Object.assign({}, linkParams, params))
-);
-
 const BlogPage = (
-  { items, isRequesting, page, search, likes, likePost }
+  { items, isRequesting, page, search, likes, likePost, createLink }
 ) => (
   <Loader loading={isRequesting}>
     <Grid columns={2} divided>
@@ -59,6 +54,7 @@ BlogPage.propTypes = {
   likePost: PropTypes.func,
   page: PropTypes.number,
   search: PropTypes.string,
+  createLink: PropTypes.func
 };
 
 export default BlogPage;

@@ -4,6 +4,7 @@ import { parse } from 'qs';
 
 import BlogPage from 'components/pages/BlogPage';
 import { likePost } from 'actions/Like';
+import { createLink } from 'actions/Posts';
 
 const stateToProps = (state) => ({
   items: state.posts.items,
@@ -13,13 +14,23 @@ const stateToProps = (state) => ({
 });
 
 const actionToProps = (dispatch) => ({
-  likePost: (id) => dispatch(likePost(id))
+  likePost: (id) => dispatch(likePost(id)),
+  createLink
 });
 
-const mergeProps = (stateProps, actionProps, ownProps) =>
-  assign({}, stateProps, actionProps, ownProps, {
-    page: parse(ownProps.location.search.substr(1)).page || 1
-  });
+const mergeProps = (stateProps, actionProps, ownProps) => {
+  const params = parse(ownProps.location.search.substr(1));
 
+  const searchStr = (params.search || '').toUpperCase();
+  const filteredItems = searchStr ? stateProps.items.filter(
+    item => ~item.title.toUpperCase().indexOf(searchStr)
+  ) : stateProps.items;
+
+  return assign({}, stateProps, actionProps, ownProps, {
+    items: filteredItems,
+    page: +(params.page || 1),
+    search: params.search
+  });
+};
 
 export default connect(stateToProps, actionToProps, mergeProps)(BlogPage);
