@@ -3,7 +3,8 @@ import React, { PropTypes } from 'react';
 import TextBox from './elements/TextBox';
 import Image from './elements/Image';
 import Meta from './elements/Meta';
-import {Divider, Segment} from 'semantic-ui-react';
+import { Item } from 'semantic-ui-react';
+import Link from 'components/elements/Link';
 
 class BlogItem extends React.Component {
   constructor(props) {
@@ -17,12 +18,25 @@ class BlogItem extends React.Component {
 
   render() {
     return (
-      <Segment>
+      <Item>
         <Image {...Object.assign(imageDefaultStyle, this.props.item.image)} />
-        <TextBox>{this.props.item.text}</TextBox>
-        <Divider clearing />
-        <Meta {...this.props.item.meta} likeCallback={this.handleLike} />
-      </Segment>
+
+        <Item.Content>
+          <Item.Header as='h2'>
+            <Link to={this.props.item.link}>
+              {this.props.item.title}
+            </Link>
+          </Item.Header>
+
+          <Item.Description>
+            <TextBox>{this.props.item.text}</TextBox>
+          </Item.Description>
+
+          <Item.Meta>
+            <Meta {...this.props.item.meta} likeCallback={this.handleLike} />
+          </Item.Meta>
+        </Item.Content>
+      </Item>
     );
   }
 }
@@ -39,8 +53,10 @@ BlogItem.propTypes = {
   item: PropTypes.shape({
     id: PropTypes.number,
     image: PropTypes.object,
+    title: PropTypes.string,
     text: PropTypes.string,
-    meta: PropTypes.object
+    meta: PropTypes.object,
+    link: PropTypes.string,
   }),
   likeCallback: PropTypes.func
 };

@@ -1,17 +1,21 @@
 import React, { PropTypes } from 'react';
 
+import { Item, Divider } from 'semantic-ui-react';
 import BlogItem from './Item';
 
-const BlogList = ({ items, ...others }) => (
-  <div>
+const BlogList = ({items, ...others}) => (
+  <Item.Group>
     {items.map((item) => (
-      <BlogItem key={item.id} item={item} {...others} />
+      <div key={item.id}>
+        <BlogItem item={item} {...others} />
+        <Divider />
+      </div>
     ))}
-  </div>
+  </Item.Group>
 );
 
 BlogList.propTypes = {
-  items: PropTypes.array,
+  items: PropTypes.array
 };
 
 export default BlogList;

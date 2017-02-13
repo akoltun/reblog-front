@@ -1,38 +1,19 @@
 import React, { PropTypes } from 'react';
 
-import ReactDOM from 'react-dom';
+import PieChartView from 'components/widgets/blog/PieChartView';
 
-import c3 from 'c3';
+const PieChart = ({items}) => {
+  const pieChartData = items.map(
+    (item) => ([item.text, item.meta.like || 0])
+  );
 
-class PieChart extends React.Component {
-  componentDidMount() {
-    this.chart = c3.generate({
-      bindto: ReactDOM.findDOMNode(this.refs.chart),
-      data: {
-        columns: this.props.data,
-        type: 'pie'
-      }
-    });
-  }
-
-  componentWillUnmount() {
-    this.chart.destroy();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.chart.unload(this.props);
-    this.chart.load({columns: nextProps.data});
-  }
-
-  render() {
-    return (
-      <div ref="chart"></div>
-    );
-  }
-}
+  return (
+    <PieChartView data={pieChartData} />
+  );
+};
 
 PieChart.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.array)
+  items: PropTypes.array
 };
 
 export default PieChart;
