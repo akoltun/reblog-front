@@ -12,8 +12,8 @@ const Meta = ({author, created, updated, likes}) => (
   </ul>
 );
 
-Like.defaultProps = {
-  like: 0,
+Meta.defaultProps = {
+  likes: { count: 0 },
   author: '<unknown>',
   created: new Date(),
   updated: new Date()

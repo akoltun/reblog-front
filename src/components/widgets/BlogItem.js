@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { assign } from 'lodash/object';
 
 import { Item } from 'semantic-ui-react';
 
@@ -8,32 +7,27 @@ import TextBox from 'components/elements/TextBox';
 import Image from 'components/elements/Image';
 import Meta from './Meta';
 
-const BlogItem = ({item, like}) => {
-  const meta = assign({}, item.meta, like);
-  meta.likes = assign({}, meta.likes, like);
+const BlogItem = ({item}) => (
+  <Item>
+    <Image {...Object.assign(imageDefaultStyle, item.image)} />
 
-  return (
-    <Item>
-      <Image {...Object.assign(imageDefaultStyle, item.image)} />
+    <Item.Content>
+      <Item.Header as='h2'>
+        <Link to={item.link}>
+          {item.title}
+        </Link>
+      </Item.Header>
 
-      <Item.Content>
-        <Item.Header as='h2'>
-          <Link to={item.link}>
-            {item.title}
-          </Link>
-        </Item.Header>
+      <Item.Description>
+        <TextBox>{item.text}</TextBox>
+      </Item.Description>
 
-        <Item.Description>
-          <TextBox>{item.text}</TextBox>
-        </Item.Description>
-
-        <Item.Meta>
-          <Meta {...meta} />
-        </Item.Meta>
-      </Item.Content>
-    </Item>
-  );
-};
+      <Item.Meta>
+        <Meta {...item.meta} />
+      </Item.Meta>
+    </Item.Content>
+  </Item>
+);
 
 const imageDefaultStyle = {
   item: {},
@@ -51,8 +45,7 @@ BlogItem.propTypes = {
     title: PropTypes.string,
     text: PropTypes.string,
     meta: PropTypes.object,
-  }),
-  like: PropTypes.object,
+  })
 };
 
 export default BlogItem;

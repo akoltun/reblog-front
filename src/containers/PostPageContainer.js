@@ -7,11 +7,7 @@ import { likePost } from 'actions/Like';
 const stateToProps = (state) => ({
   item: state.post.item,
   isRequesting: state.post.isRequesting,
-  error: state.post.error,
-  like: {
-    isRequesting: state.post.like.isRequesting,
-    error: state.post.like.error
-  }
+  error: state.post.error
 });
 
 const actionToProps = (dispatch) => ({
@@ -20,8 +16,12 @@ const actionToProps = (dispatch) => ({
 
 const mergeProps = (stateProps, actionProps, ownProps) =>
   assign({}, stateProps, {
-    like: assign({}, stateProps.like, stateProps.item && {
-      callback: () => actionProps.likePost(stateProps.item.id)
+    item: assign({}, stateProps.item, {
+      meta: assign({}, stateProps.item.meta, {
+        likes: assign({}, stateProps.item.meta.likes, {
+          callback: () => actionProps.likePost(stateProps.item.id)
+        })
+      })
     })
   }, ownProps);
 
