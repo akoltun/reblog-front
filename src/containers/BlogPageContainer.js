@@ -24,37 +24,33 @@ const doSearch = (createSearchPath, searchStr) => {
   }
 };
 
-const stateToProps = (state) => ({
-  items: state.posts.items.map(item =>
-    assign({}, item, {link: postPath(item.id)})
-  ),
-  likes: state.posts.likes,
-  isRequesting: state.posts.isRequesting,
-  error: state.posts.error,
-});
-
-const actionToProps = (dispatch) => ({
-  likePost: (id) => dispatch(likePost(id)),
-});
-
-const mergeProps = (stateProps, actionProps, ownProps) => {
-  const params = extractParams(ownProps.location);
+const stateToProps = (state, props) => {
+  const params = extractParams(props.location);
   const page = +(params.page || 1);
 
   const filteredItems = params.search ? filter(
-    stateProps.items,
+    state.posts.items,
     method('title.match', new RegExp(params.search, 'i'))
-  ) : stateProps.items;
+  ) : state.posts.items;
 
-  return assign({}, stateProps, actionProps, ownProps, {
-    items: filteredItems,
+  return {
+    items: filteredItems.map(item =>
+      assign({}, item, {link: postPath(item.id)})
+    ),
+    likes: state.posts.likes,
+    isRequesting: state.posts.isRequesting,
+    error: state.posts.error,
     page,
     pageCount: Math.ceil(filteredItems.length / PAGE_SIZE),
     gotoPage: createPostsPath({search: params.search}),
     search: params.search,
     searchStrChanged: (event) =>
       doSearch(createPostsPath({page}), event.currentTarget.value)
-  });
+  };
 };
 
-export default connect(stateToProps, actionToProps, mergeProps)(BlogPage);
+const actionToProps = (dispatch) => ({
+  likePost: (id) => dispatch(likePost(id)),
+});
+
+export default connect(stateToProps, actionToProps)(BlogPage);
