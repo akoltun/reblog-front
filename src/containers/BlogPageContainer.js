@@ -7,9 +7,12 @@ import { browserHistory as history } from 'react-router';
 
 import BlogPage from 'components/pages/BlogPage';
 import { likePost } from 'actions/Like';
-import { createLink } from 'actions/Posts';
 import { PAGE_SIZE } from 'constants/Pagination';
-import { extractParams } from 'helpers/routes';
+import { extractParams, postsPath } from 'helpers/routes';
+
+const createPostsPath = (pathParams) => (params) => (
+  postsPath(assign({}, pathParams, params))
+);
 
 const doSearch = (createSearchPath, searchStr) => {
   const path = createSearchPath({search: searchStr || undefined});
@@ -30,7 +33,6 @@ const stateToProps = (state) => ({
 
 const actionToProps = (dispatch) => ({
   likePost: (id) => dispatch(likePost(id)),
-  createLink
 });
 
 const mergeProps = (stateProps, actionProps, ownProps) => {
@@ -46,10 +48,10 @@ const mergeProps = (stateProps, actionProps, ownProps) => {
     items: filteredItems,
     page,
     pageCount: Math.ceil(filteredItems.length / PAGE_SIZE),
-    gotoPage: createLink({search: params.search}),
+    gotoPage: createPostsPath({search: params.search}),
     search: params.search,
     searchStrChanged: (event) =>
-      doSearch(createLink({page}), event.currentTarget.value)
+      doSearch(createPostsPath({page}), event.currentTarget.value)
   });
 };
 

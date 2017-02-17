@@ -2,7 +2,7 @@ import request from 'superagent';
 
 import { API_ROOT } from 'constants/API';
 import * as types from 'constants/actionTypes/PostsActionTypes';
-import { queryString, postsPath } from 'helpers/routes';
+import { postsPath } from 'helpers/routes';
 
 const requestPosts = () => ({
   type: types.FETCH_POSTS_REQUEST
@@ -28,7 +28,3 @@ export function fetchPosts() {
       });
   };
 }
-
-export const createLink = (linkParams) => (params) => (
-  postsPath() + queryString(Object.assign({}, linkParams, params))
-);
