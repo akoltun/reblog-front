@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
 import { assign } from 'lodash/object';
+import { filter } from 'lodash/collection';
+import { method } from 'lodash/util';
 import { parse } from 'qs';
 import { browserHistory as history } from 'react-router';
 
@@ -35,9 +37,9 @@ const mergeProps = (stateProps, actionProps, ownProps) => {
   const params = extractParams(ownProps.location);
   const page = +(params.page || 1);
 
-  const searchStr = (params.search || '').toUpperCase();
-  const filteredItems = searchStr ? stateProps.items.filter(
-    item => ~item.title.toUpperCase().indexOf(searchStr)
+  const filteredItems = params.search ? filter(
+    stateProps.items,
+    method('title.match', new RegExp(params.search, 'i'))
   ) : stateProps.items;
 
   return assign({}, stateProps, actionProps, ownProps, {
