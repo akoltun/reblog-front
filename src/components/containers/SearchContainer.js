@@ -5,7 +5,7 @@ import { browserHistory as history } from 'react-router';
 
 import Search from 'components/elements/Search';
 
-class SearchContrainer extends React.Component {
+class SearchContainer extends React.Component {
   constructor(props) {
     super(props);
     this.doSearch = this.doSearch.bind(this);
@@ -30,9 +30,9 @@ class SearchContrainer extends React.Component {
   }
 }
 
-SearchContrainer.propTypes = {
+SearchContainer.propTypes = {
   search: PropTypes.string,
   onChange: PropTypes.func
 };
 
-export default SearchContrainer;
+export default SearchContainer;
