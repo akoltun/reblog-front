@@ -5,6 +5,7 @@ import { parse } from 'qs';
 import BlogPage from 'components/pages/BlogPage';
 import { likePost } from 'actions/Like';
 import { createLink } from 'actions/Posts';
+import { PAGE_SIZE } from 'constants/Pagination';
 
 const stateToProps = (state) => ({
   items: state.posts.items,
@@ -29,6 +30,7 @@ const mergeProps = (stateProps, actionProps, ownProps) => {
   return assign({}, stateProps, actionProps, ownProps, {
     items: filteredItems,
     page: +(params.page || 1),
+    pageCount: Math.ceil(filteredItems.length / PAGE_SIZE),
     search: params.search
   });
 };

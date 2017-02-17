@@ -9,10 +9,9 @@ import PaginatedListContainer
 import PaginatorContainer from 'components/containers/PaginatorContainer';
 import SearchContainer from 'components/containers/SearchContainer';
 import PieChartContainer from 'components/containers/PieChartContainer';
-import { PAGE_SIZE } from 'constants/Pagination';
 
 const BlogPage = (
-  { items, isRequesting, page, search, likes, likePost, createLink }
+  { items, isRequesting, page, pageCount, search, likes, likePost, createLink }
 ) => (
   <Loader loading={isRequesting}>
     <Grid columns={2} divided>
@@ -26,7 +25,7 @@ const BlogPage = (
             likePost={likePost}
           />
           <PaginatorContainer
-            pageCount={Math.ceil(items.length / PAGE_SIZE)}
+            pageCount={pageCount}
             page={page}
             createLink={createLink({search})}
           />
@@ -53,6 +52,7 @@ BlogPage.propTypes = {
   likes: PropTypes.object,
   likePost: PropTypes.func,
   page: PropTypes.number,
+  pageCount: PropTypes.number,
   search: PropTypes.string,
   createLink: PropTypes.func
 };
