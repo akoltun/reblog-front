@@ -2,17 +2,21 @@ import React, { PropTypes } from 'react';
 
 import { Grid } from 'semantic-ui-react';
 
+import Search from 'components/elements/Search';
 import Loader from 'components/widgets/Loader';
 import BlogList from 'components/widgets/BlogList';
 import PaginatedListContainer
   from 'components/containers/PaginatedListContainer';
 import PaginatorContainer from 'components/containers/PaginatorContainer';
-import SearchContainer from 'components/containers/SearchContainer';
 import PieChartContainer from 'components/containers/PieChartContainer';
 
-const BlogPage = (
-  { items, isRequesting, page, pageCount, search, likes, likePost, createLink }
-) => (
+const BlogPage = ({
+  items,
+  isRequesting,
+  page, pageCount, gotoPage,
+  search, searchStrChanged,
+  likes, likePost
+}) => (
   <Loader loading={isRequesting}>
     <Grid columns={2} divided>
       <Grid.Row>
@@ -27,13 +31,13 @@ const BlogPage = (
           <PaginatorContainer
             pageCount={pageCount}
             page={page}
-            createLink={createLink({search})}
+            createLink={gotoPage}
           />
         </Grid.Column>
 
         <Grid.Column width={6}>
           <Grid.Row>
-            <SearchContainer search={search} onChange={createLink({page})}/>
+            <Search defaultValue={search} onChange={searchStrChanged}/>
           </Grid.Row>
 
           <Grid.Row>
@@ -53,8 +57,9 @@ BlogPage.propTypes = {
   likePost: PropTypes.func,
   page: PropTypes.number,
   pageCount: PropTypes.number,
+  gotoPage: PropTypes.func,
   search: PropTypes.string,
-  createLink: PropTypes.func
+  searchStrChanged: PropTypes.func
 };
 
 export default BlogPage;

@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { assign } from 'lodash/object';
 import { parse } from 'qs';
+import { browserHistory as history } from 'react-router';
 
 import BlogPage from 'components/pages/BlogPage';
 import { likePost } from 'actions/Like';
@@ -19,8 +20,19 @@ const actionToProps = (dispatch) => ({
   createLink
 });
 
+const doSearch = (createSearchPath, searchStr) => {
+  const path = createSearchPath({search: searchStr || undefined});
+
+  if ('search' in parse(history.getCurrentLocation().search.slice(1))) {
+    history.replace(path);
+  } else {
+    history.push(path);
+  }
+};
+
 const mergeProps = (stateProps, actionProps, ownProps) => {
   const params = parse(ownProps.location.search.substr(1));
+  const page = +(params.page || 1);
 
   const searchStr = (params.search || '').toUpperCase();
   const filteredItems = searchStr ? stateProps.items.filter(
@@ -29,9 +41,12 @@ const mergeProps = (stateProps, actionProps, ownProps) => {
 
   return assign({}, stateProps, actionProps, ownProps, {
     items: filteredItems,
-    page: +(params.page || 1),
+    page,
     pageCount: Math.ceil(filteredItems.length / PAGE_SIZE),
-    search: params.search
+    gotoPage: createLink({search: params.search}),
+    search: params.search,
+    searchStrChanged: (event) =>
+      doSearch(createLink({page}), event.currentTarget.value)
   });
 };
 
