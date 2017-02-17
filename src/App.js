@@ -11,7 +11,6 @@ import prepareData from 'helpers/prepareData';
 import DevTools from 'containers/DevTools';
 
 function historyCallback(location) {
-  console.log(arguments);
   match({ location, routes }, (error, redirect, routerState) => {
     if (!error && !redirect) {
       prepareData(store, routerState);
