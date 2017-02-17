@@ -7,6 +7,17 @@ import BlogPage from 'components/pages/BlogPage';
 import { likePost } from 'actions/Like';
 import { createLink } from 'actions/Posts';
 import { PAGE_SIZE } from 'constants/Pagination';
+import { extractParams } from 'helpers/routes';
+
+const doSearch = (createSearchPath, searchStr) => {
+  const path = createSearchPath({search: searchStr || undefined});
+
+  if ('search' in parse(history.getCurrentLocation().search.slice(1))) {
+    history.replace(path);
+  } else {
+    history.push(path);
+  }
+};
 
 const stateToProps = (state) => ({
   items: state.posts.items,
@@ -20,18 +31,8 @@ const actionToProps = (dispatch) => ({
   createLink
 });
 
-const doSearch = (createSearchPath, searchStr) => {
-  const path = createSearchPath({search: searchStr || undefined});
-
-  if ('search' in parse(history.getCurrentLocation().search.slice(1))) {
-    history.replace(path);
-  } else {
-    history.push(path);
-  }
-};
-
 const mergeProps = (stateProps, actionProps, ownProps) => {
-  const params = parse(ownProps.location.search.substr(1));
+  const params = extractParams(ownProps.location);
   const page = +(params.page || 1);
 
   const searchStr = (params.search || '').toUpperCase();
