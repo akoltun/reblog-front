@@ -8,7 +8,7 @@ import { browserHistory as history } from 'react-router';
 import BlogPage from 'components/pages/BlogPage';
 import { likePost } from 'actions/Like';
 import { PAGE_SIZE } from 'constants/Pagination';
-import { extractParams, postsPath } from 'helpers/routes';
+import { extractParams, postsPath, postPath } from 'helpers/routes';
 
 const createPostsPath = (pathParams) => (params) => (
   postsPath(assign({}, pathParams, params))
@@ -25,7 +25,9 @@ const doSearch = (createSearchPath, searchStr) => {
 };
 
 const stateToProps = (state) => ({
-  items: state.posts.items,
+  items: state.posts.items.map(item =>
+    assign({}, item, {link: postPath(item.id)})
+  ),
   likes: state.posts.likes,
   isRequesting: state.posts.isRequesting,
   error: state.posts.error,

@@ -8,7 +8,7 @@ import TextBox from 'components/elements/TextBox';
 import Image from 'components/elements/Image';
 import Meta from './Meta';
 
-const BlogItem = ({item, link, like}) => {
+const BlogItem = ({item, like}) => {
   const meta = assign({}, item.meta, like);
   meta.likes = assign({}, meta.likes, like);
 
@@ -18,7 +18,7 @@ const BlogItem = ({item, link, like}) => {
 
       <Item.Content>
         <Item.Header as='h2'>
-          <Link to={link}>
+          <Link to={item.link}>
             {item.title}
           </Link>
         </Item.Header>
@@ -52,7 +52,6 @@ BlogItem.propTypes = {
     text: PropTypes.string,
     meta: PropTypes.object,
   }),
-  link: PropTypes.string,
   like: PropTypes.object,
 };
 
