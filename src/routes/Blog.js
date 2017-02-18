@@ -1,3 +1,5 @@
+import { get } from 'lodash/object';
+
 import BlogPageContainer from 'containers/BlogPageContainer';
 import PostPageContainer from 'containers/PostPageContainer';
 
@@ -13,7 +15,9 @@ const IndexRoute = {
   path: '/',
   component: BlogPageContainer,
   prepareData: (store) => {
-    store.dispatch(fetchPosts());
+    if (get(store.getState(), 'posts.items', []).length == 0) {
+      store.dispatch(fetchPosts());
+    }
   }
 };
 
