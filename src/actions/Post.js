@@ -3,13 +3,14 @@ import request from 'superagent';
 import { API_ROOT } from 'constants/API';
 import * as types from 'constants/actionTypes/PostActionTypes';
 import { postPath } from 'helpers/routes';
+import { syncPostToPosts } from 'actions/Posts';
 
 const requestPost = (id) => ({
   type: types.FETCH_POST_REQUEST,
   id
 });
 
-const receivePost = (response) => ({
+export const receivePost = (response) => ({
   type: types.FETCH_POST_SUCCESS,
   response
 });
@@ -25,7 +26,12 @@ export function fetchPost(id) {
     return request
       .get(`${API_ROOT}${postPath(id)}`)
       .end((err, res) => {
-        err ? dispatch(errorPost()) : dispatch(receivePost(res.body));
+        if (err) {
+          dispatch(errorPost());
+        } else {
+          dispatch(receivePost(res.body));
+          dispatch(syncPostToPosts(res.body));
+        }
       });
   };
 }

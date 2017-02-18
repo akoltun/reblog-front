@@ -1,5 +1,5 @@
 import { assign } from 'lodash/object';
-import { map } from 'lodash/collection';
+import { map, find } from 'lodash/collection';
 
 import * as types from 'constants/actionTypes/PostsActionTypes';
 import * as likeTypes from 'constants/actionTypes/LikePostActionTypes';
@@ -20,6 +20,15 @@ export default function(state = initialState, action) {
 
     case types.FETCH_POSTS_SUCCESS:
       return assign({}, initialState, { items: action.response });
+
+    case types.SYNC_POST_TO_POSTS: {
+      const oldItem = find(state.items, { id: action.post.id });
+      // If oldItem is not found it means that the list of posts is outdated
+      // and has to be refreshed
+      return oldItem ? assign({}, state, {
+        items: map(state.items, item => item == oldItem ? action.post : item)
+      }) : initialState;
+    }
 
     case likeTypes.SEND_LIKE_REQUEST:
       return assign({}, state, {

@@ -17,6 +17,11 @@ const errorPosts = () => ({
   type: types.FETCH_POSTS_ERROR
 });
 
+export const syncPostToPosts = (post) => ({
+  type: types.SYNC_POST_TO_POSTS,
+  post
+});
+
 export function fetchPosts() {
   return (dispatch) => {
     dispatch(requestPosts());
