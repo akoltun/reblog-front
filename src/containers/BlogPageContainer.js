@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { assign } from 'lodash/object';
-import { filter } from 'lodash/collection';
+import { filter, map } from 'lodash/collection';
 import { method } from 'lodash/util';
 import { parse } from 'qs';
 import { browserHistory as history } from 'react-router';
@@ -34,10 +34,9 @@ const stateToProps = (state, props) => {
   ) : state.posts.items;
 
   return {
-    items: filteredItems.map(item =>
+    items: map(filteredItems, item =>
       assign({}, item, {link: postPath(item.id)})
     ),
-    likes: state.posts.likes,
     isRequesting: state.posts.isRequesting,
     error: state.posts.error,
     page,
@@ -53,4 +52,15 @@ const actionToProps = (dispatch) => ({
   likePost: (id) => dispatch(likePost(id)),
 });
 
-export default connect(stateToProps, actionToProps)(BlogPage);
+const mergeProps = (stateToProps, actionToProps, ownProps) =>
+  assign({}, stateToProps, {
+    items: map(stateToProps.items, item => assign({}, item, {
+      meta: assign({}, item.meta, {
+        likes: assign({}, item.meta.likes, {
+          callback: () => actionToProps.likePost(item.id)
+        })
+      })
+    }))
+  }, ownProps);
+
+export default connect(stateToProps, actionToProps, mergeProps)(BlogPage);

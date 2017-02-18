@@ -14,8 +14,7 @@ const BlogPage = ({
   items,
   isRequesting,
   page, pageCount, gotoPage,
-  search, searchStrChanged,
-  likes, likePost
+  search, searchStrChanged
 }) => (
   <Loader loading={isRequesting}>
     <Grid columns={2} divided>
@@ -25,8 +24,6 @@ const BlogPage = ({
             as={BlogList}
             items={items}
             page={page}
-            likes={likes}
-            likePost={likePost}
           />
           <PaginatorContainer
             pageCount={pageCount}
@@ -53,8 +50,6 @@ BlogPage.propTypes = {
   items: PropTypes.array,
   isRequesting: PropTypes.bool,
   error: PropTypes.bool,
-  likes: PropTypes.object,
-  likePost: PropTypes.func,
   page: PropTypes.number,
   pageCount: PropTypes.number,
   gotoPage: PropTypes.func,
