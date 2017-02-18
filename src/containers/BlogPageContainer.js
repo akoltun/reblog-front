@@ -44,7 +44,7 @@ const stateToProps = (state, props) => {
     gotoPage: createPostsPath({search: params.search}),
     search: params.search,
     searchStrChanged: (event) =>
-      doSearch(createPostsPath({page}), event.currentTarget.value)
+      doSearch(createPostsPath({}), event.currentTarget.value)
   };
 };
 
