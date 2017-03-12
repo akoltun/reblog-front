@@ -1,29 +1,32 @@
 import React, { PropTypes } from 'react';
 
 import { Menu } from 'semantic-ui-react';
+
 import Link from 'components/elements/Link';
 
-const Pagination = ({ page, links }) => {
-  return links.length > 1 && (
+const Paginator = ({ page, links }) => (
+  links.length > 1 && (
     <Menu pagination>
       {links.map((link, index) => (
         <Menu.Item
           key={index}
-          active={index + 1 == page}>
+          active={index + 1 == page}
+          width={10}
+        >
           <Link to={link}>{index + 1}</Link>
         </Menu.Item>
       ))}
     </Menu>
-  );
-};
+  )
+);
 
-Pagination.defaultProps = {
+Paginator.defaultProps = {
   page: 1,
 };
 
-Pagination.propTypes = {
+Paginator.propTypes = {
   page: PropTypes.number,
   links: PropTypes.array
 };
 
-export default Pagination;
+export default Paginator;
