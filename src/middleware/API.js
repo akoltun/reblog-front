@@ -33,9 +33,9 @@ const nextAction = (action, data) => (
 export default store => next => action => {
   if (!action[API_CALL]) return next(action);
 
-  const [requestType, successType, failureType] = action[API_CALL].types;
+  const types = action[API_CALL].types;
 
-  next(nextAction(action, { type: requestType }));
+  next(nextAction(action, { type: types.request }));
 
   const promise = APICall(
     pick(action[API_CALL], ['endpoint', 'method', 'query', 'payload'])
@@ -43,10 +43,10 @@ export default store => next => action => {
 
   promise.then(
     (response) => next(
-      nextAction(action, { response, type: successType })
+      nextAction(action, { response, type: types.success })
     ),
     (error) => next(
-      nextAction(action, { error, type: failureType })
+      nextAction(action, { error, type: types.error })
     )
   );
 

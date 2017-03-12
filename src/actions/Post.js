@@ -12,11 +12,11 @@ export function fetchPost(id) {
       endpoint: `/posts/${id}`,
       method: 'GET',
       query: {},
-      types: [
-        types.FETCH_POST_REQUEST,
-        types.FETCH_POST_SUCCESS,
-        types.FETCH_POST_ERROR
-      ]
+      types: {
+        request: types.FETCH_POST_REQUEST,
+        success: types.FETCH_POST_SUCCESS,
+        errors: types.FETCH_POST_ERROR
+      }
     }
   };
 }

@@ -7,11 +7,11 @@ export function fetchPosts() {
       endpoint: '/',
       method: 'GET',
       query: {},
-      types: [
-        types.FETCH_POSTS_REQUEST,
-        types.FETCH_POSTS_SUCCESS,
-        types.FETCH_POSTS_ERROR
-      ]
+      types: {
+        request: types.FETCH_POSTS_REQUEST,
+        success: types.FETCH_POSTS_SUCCESS,
+        error: types.FETCH_POSTS_ERROR
+      }
     }
   };
 }
