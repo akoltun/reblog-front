@@ -1,26 +1,32 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
-import c3 from 'c3';
+const c3 = global.__CLIENT__ ? require('c3') : undefined;
 
 class PieChart extends React.Component {
   componentDidMount() {
-    this.chart = c3.generate({
-      bindto: ReactDOM.findDOMNode(this.refs.chart),
-      data: {
-        columns: this.props.data,
-        type: 'pie'
-      }
-    });
+    if (global.__CLIENT__) {
+      this.chart = c3.generate({
+        bindto: ReactDOM.findDOMNode(this.refs.chart),
+        data: {
+          columns: this.props.data,
+          type: 'pie'
+        }
+      });
+    }
   }
 
   componentWillUnmount() {
-    this.chart.destroy();
+    if (global.__CLIENT__) {
+      this.chart.destroy();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    this.chart.unload(this.props);
-    this.chart.load({columns: nextProps.data});
+    if (global.__CLIENT__) {
+      this.chart.unload(this.props);
+      this.chart.load({columns: nextProps.data});
+    }
   }
 
   render() {
