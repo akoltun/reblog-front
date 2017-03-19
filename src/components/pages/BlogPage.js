@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import { Grid } from 'semantic-ui-react';
+import Helmet from 'react-helmet';
 
 import Search from 'components/elements/Search';
 import Loader from 'components/widgets/Loader';
@@ -16,34 +17,39 @@ const BlogPage = ({
   page, pageCount, gotoPage,
   search, searchStrChanged
 }) => (
-  <Loader loading={isRequesting}>
-    <Grid columns={2} divided>
-      <Grid.Row>
-        <Grid.Column>
-          <PaginatedListContainer
-            as={BlogList}
-            items={items}
-            page={page}
-          />
-          <PaginatorContainer
-            pageCount={pageCount}
-            page={page}
-            createLink={gotoPage}
-          />
-        </Grid.Column>
+  <div>
+    <Helmet
+      title='Список постов'
+    />
+    <Loader loading={isRequesting}>
+      <Grid columns={2} divided>
+        <Grid.Row>
+          <Grid.Column>
+            <PaginatedListContainer
+              as={BlogList}
+              items={items}
+              page={page}
+            />
+            <PaginatorContainer
+              pageCount={pageCount}
+              page={page}
+              createLink={gotoPage}
+            />
+          </Grid.Column>
 
-        <Grid.Column width={6}>
-          <Grid.Row>
-            <Search defaultValue={search} onChange={searchStrChanged}/>
-          </Grid.Row>
+          <Grid.Column width={6}>
+            <Grid.Row>
+              <Search defaultValue={search} onChange={searchStrChanged}/>
+            </Grid.Row>
 
-          <Grid.Row>
-            <PieChartContainer items={items} />
-          </Grid.Row>
-        </Grid.Column>
-      </Grid.Row>
-    </Grid>
-  </Loader>
+            <Grid.Row>
+              <PieChartContainer items={items} />
+            </Grid.Row>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </Loader>
+  </div>
 );
 
 BlogPage.propTypes = {
