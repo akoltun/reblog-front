@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 
-const c3 = global.__CLIENT__ ? require('c3') : undefined;
+const c3 = __CLIENT__ ? require('c3') : undefined;
 
 class PieChart extends React.Component {
   componentDidMount() {
-    if (global.__CLIENT__) {
+    if (__CLIENT__) {
       this.chart = c3.generate({
         bindto: ReactDOM.findDOMNode(this.refs.chart),
         data: {
@@ -17,13 +17,13 @@ class PieChart extends React.Component {
   }
 
   componentWillUnmount() {
-    if (global.__CLIENT__) {
+    if (__CLIENT__) {
       this.chart.destroy();
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (global.__CLIENT__) {
+    if (__CLIENT__) {
       this.chart.unload(this.props);
       this.chart.load({columns: nextProps.data});
     }
