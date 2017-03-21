@@ -11,7 +11,7 @@ const Header = () => (
       <Link to='/'>Фрэймворк блог</Link>
       &nbsp;
       <Icon name='newspaper' />
-      <Link to={aboutPath}>О блоге</Link>
+      <Link to={aboutPath()}>О блоге</Link>
     </SemanticHeader>
   </Segment>
 );
