@@ -4,11 +4,12 @@ require('app-module-path').addPath(path.join(process.cwd(), 'src'));
 require('./globals');
 
 require('babel-core/register');
+// eslint-disable-next-line
 require.extensions['.css'] = () => {
   return;
 };
 
-const host = 'localhost';
+// const host = 'localhost';
 const port = 3001;
 
 const express = require('express');
@@ -42,5 +43,5 @@ application.use(webpackHot(compiler));
 application.get('*', require('./render').default);
 
 application.listen(port, function() {
-  console.log('Server listening on ' + port);
+  console.log('Server listening on ' + port); // eslint-disable-line
 });

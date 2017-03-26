@@ -10,6 +10,7 @@ import prepareData from 'helpers/prepareData';
 
 import DevTools from 'containers/DevTools';
 
+// eslint-disable-next-line
 const store = createStore(window.__INITIAL_STATE__);
 
 function historyCallback(location) {
@@ -34,7 +35,8 @@ ReactDOM.render(
   <DevTools store={store} />,
   document.getElementById('devtools'),
   () => {
-    delete window.__INITIAL_STATE__;
+    delete window.__INITIAL_STATE__;  // eslint-disable-line
+    // Initialize c3
   }
 );
 
