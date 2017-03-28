@@ -15,7 +15,7 @@ export function fetchPost(id) {
       types: {
         request: types.FETCH_POST_REQUEST,
         success: types.FETCH_POST_SUCCESS,
-        errors: types.FETCH_POST_ERROR
+        error: types.FETCH_POST_ERROR
       }
     }
   };
