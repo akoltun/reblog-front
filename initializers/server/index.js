@@ -13,8 +13,11 @@ require.extensions['.css'] = () => {
 const port = 3001;
 
 const express = require('express');
+const morgan = require('morgan');
 
 const application = express();
+
+application.use(morgan('dev'));
 
 application.use(express.static('src/static'));
 

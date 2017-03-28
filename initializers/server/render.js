@@ -13,20 +13,20 @@ import prepareData from 'helpers/prepareData';
 
 const store = createStore();
 
-const notFound = { status: 404, body: 'NOT FOUND' };
-const serverError = msg => ({ status: 500, body: msg });
-
-const sendResponse = (res, obj) => res.status(obj.status).send(obj.body);
+// const notFound = { status: 404, body: 'NOT FOUND' };
+// const serverError = msg => ({ status: 500, body: msg });
+//
+// const sendResponse = (res, obj) => res.status(obj.status).send(obj.body);
 
 export default (req, res) => {
   match({ routes, location: req.url },
     (error, redirectLocation, renderProps) => {
-      if (error) return sendResponse(res, serverError(error.message));
+      if (error) return res.sendStatus(500);
       if (redirectLocation) {
         res.redirect(redirectLocation.pathname + redirectLocation.search);
         return;
       }
-      if (renderProps === undefined) return sendResponse(res, notFound);
+      if (renderProps === undefined) return res.sendStatus(404);
 
       return Promise.all(compact(prepareData(store, renderProps))).then(() => {
         const initialState = JSON.stringify(store.getState());
@@ -47,8 +47,7 @@ export default (req, res) => {
           { initialState, content, head }
         );
       })
-      .catch(error => sendResponse(res,
-          error ? serverError(error.message) : notFound));
+      .catch(error => res.sendStatus(error.status));
     }
   );
 };
