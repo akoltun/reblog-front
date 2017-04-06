@@ -4,11 +4,14 @@ import ReactDOM from 'react-dom';
 import { Router, match, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
-import store from 'store';
+import createStore from 'store';
 import routes from 'routes';
 import prepareData from 'helpers/prepareData';
 
 import DevTools from 'containers/DevTools';
+
+// eslint-disable-next-line
+const store = createStore(window.__INITIAL_STATE__);
 
 function historyCallback(location) {
   match({ location, routes }, (error, redirect, routerState) => {
@@ -30,7 +33,11 @@ const App = () => (
 
 ReactDOM.render(
   <DevTools store={store} />,
-  document.getElementById('devtools')
+  document.getElementById('devtools'),
+  () => {
+    delete window.__INITIAL_STATE__;  // eslint-disable-line
+    // Initialize c3
+  }
 );
 
 export default App;
