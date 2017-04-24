@@ -48,7 +48,7 @@ const AboutRoute = {
 const ContactsRoute = {
   path: contactsPath(),
   component: ContactsPage
-}
+};
 
 export default {
   component: MainLayout,
