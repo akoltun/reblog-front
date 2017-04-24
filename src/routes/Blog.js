@@ -5,10 +5,11 @@ import BlogPageContainer from 'containers/BlogPageContainer';
 import PostPageContainer from 'containers/PostPageContainer';
 
 import AboutPage from 'components/pages/AboutPage';
+import ContactsPage from 'components/pages/ContactsPage';
 import MainLayout from 'components/layouts/MainLayout';
 
 import initialLoad from 'helpers/initialLoad';
-import { postPath, aboutPath } from 'helpers/routes';
+import { postPath, contactsPath, aboutPath } from 'helpers/routes';
 
 import { fetchPosts } from 'actions/Posts';
 import { fetchPost, receivePost } from 'actions/Post';
@@ -44,11 +45,17 @@ const AboutRoute = {
   component: AboutPage
 };
 
+const ContactsRoute = {
+  path: contactsPath(),
+  component: ContactsPage
+}
+
 export default {
   component: MainLayout,
   childRoutes: [
     IndexRoute,
     PostRoute,
+    ContactsRoute,
     AboutRoute
   ]
 };
