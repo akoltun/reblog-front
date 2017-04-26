@@ -1,57 +1,88 @@
 import React, { PropTypes } from 'react';
 
-import { assign, mapValues } from 'lodash/object';
+import { assign, set } from 'lodash/object';
 import classNames from 'classnames';
 
 class ContactsForm extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = { errors: {} };
+    this.state = {
+      form: {
+        values: {
+          fullName: '',
+          email: '',
+          message: ''
+        },
+        errors: {}
+      }
+    };
     this.form = {};
     this.onSubmit = this.onSubmit.bind(this);
-    this.generateRef = this.generateRef.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   onSubmit(e) {
     e.preventDefault();
     this.setState({ errors: {} });
-    const values = mapValues(this.form, 'value');
 
-    if (!values.email || values.email.length < 3) {
-      this.setState(assign(
-        {},
-        this.state,
-        { errors: assign({}, this.state.errors, { email: true }) }
-      ));
-    }
-
-    alert(JSON.stringify(values));
+    alert(JSON.stringify(this.state.form.values));
   }
 
-  generateRef(fieldName) {
-    return (input) => { this.form[fieldName] = input; };
+  clearError(fieldName) {
+    this.setState(set(
+      assign({}, this.state),
+      ['form', 'errors', fieldName],
+      false
+    ));
+  }
+
+  handleChange(fieldName) {
+    return (e) => {
+      this.clearError(fieldName);
+      switch (fieldName) {
+        case 'email':
+          if (e.target.value.length < 3) {
+            this.setState(set(
+              assign({}, this.state),
+              'form.errors.email',
+              'слишком короткий'
+            ));
+          }
+          break;
+      }
+
+      this.setState(set(
+        assign({}, this.state),
+        ['form', 'values', fieldName],
+        e.target.value
+      ));
+    };
   }
 
   render() {
+    const { fullName, email, message } = this.state.form.values;
+
     return (
       <div>
         <form className="ui form" onSubmit={this.onSubmit}>
           <TextField
             label="Имя"
             name="fullName"
-            fieldRef={this.generateRef('fullName')}
+            value={fullName}
+            onChange={this.handleChange('fullName')}
           />
           <TextField
             label="Email"
             name="email"
-            error={this.state.errors.email}
-            fieldRef={this.generateRef('email')}
+            value={email}
+            error={this.state.form.errors.email}
+            onChange={this.handleChange('email')}
           />
           <TextArea
             label="Сообщение"
             name="message"
-            fieldRef={this.generateRef('message')}
+            value={message}
+            onChange={this.handleChange('message')}
           />
 
           <input className="ui button primary" type="submit" value="Submit" />
@@ -63,53 +94,59 @@ class ContactsForm extends React.Component {
 
 export default ContactsForm;
 
-class TextField extends React.Component {
-  render() {
-    const { label, name, fieldRef, error } = this.props;
-
-    return (
-      <div className={classNames('ui field', { error })}>
-        <label htmlFor={name}>{label}:</label>
-        <input
-          type="text"
-          className="ui input"
-          id={name}
-          name={name}
-          ref={fieldRef}
-        />
+const TextField = ({label, name, value, onChange, error}) => (
+  <div className={classNames('ui field', { error })}>
+    <label htmlFor={name}>{label}:</label>
+    <input
+      type="text"
+      className="ui input"
+      id={name}
+      name={name}
+      value={value}
+      onChange={onChange}
+    />
+    {
+      error &&
+      <div
+        className="ui basic red pointing prompt label transition visible">
+        {error}
       </div>
-    );
-  }
-}
+    }
+  </div>
+);
 
 TextField.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
-  fieldRef: PropTypes.func,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
   error: PropTypes.bool
 };
 
-class TextArea extends React.Component {
-  render() {
-    const { label, name, fieldRef } = this.props;
-
-    return (
-      <div className="ui field">
-        <label htmlFor={name}>{label}:</label>
-        <textarea
-          className="ui input"
-          id={name}
-          name={name}
-          ref={fieldRef}
-        />
+const TextArea = ({label, name, value, onChange, error}) => (
+  <div className={classNames('ui field', { error })}>
+    <label htmlFor={name}>{label}:</label>
+    <textarea
+      className="ui input"
+      id={name}
+      name={name}
+      value={value}
+      onChange={onChange}
+    />
+    {
+      error &&
+      <div
+        className="ui basic red pointing prompt label transition visible">
+        {error}
       </div>
-    );
-  }
-}
+    }
+  </div>
+);
 
 TextArea.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
-  fieldRef: PropTypes.func,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
   error: PropTypes.bool
 };
