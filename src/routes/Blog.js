@@ -3,13 +3,15 @@ import { find } from 'lodash/collection';
 
 import BlogPageContainer from 'containers/BlogPageContainer';
 import PostPageContainer from 'containers/PostPageContainer';
+import EditPostPageContainer from 'containers/EditPostPageContainer';
 
 import AboutPage from 'components/pages/AboutPage';
 import ContactsPage from 'components/pages/ContactsPage';
 import MainLayout from 'components/layouts/MainLayout';
 
 import initialLoad from 'helpers/initialLoad';
-import { postPath, contactsPath, aboutPath } from 'helpers/routes';
+import { postPath, editPostPath, contactsPath, aboutPath }
+  from 'helpers/routes';
 
 import { fetchPosts } from 'actions/Posts';
 import { fetchPost, receivePost } from 'actions/Post';
@@ -40,6 +42,21 @@ const PostRoute = {
   }
 };
 
+const EditPostRoute = {
+  path: editPostPath(),
+  component: EditPostPageContainer,
+  prepareData: (store, query, params) => {
+    const items = get(store.getState(), 'posts.items', false);
+    const item = items && find(items, { id: +params.id });
+
+    if (item) {
+      return store.dispatch(receivePost(item));
+    } else {
+      return store.dispatch(fetchPost(params.id));
+    }
+  }
+};
+
 const AboutRoute = {
   path: aboutPath(),
   component: AboutPage
@@ -55,6 +72,7 @@ export default {
   childRoutes: [
     IndexRoute,
     PostRoute,
+    EditPostRoute,
     ContactsRoute,
     AboutRoute
   ]
