@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
-import classNames from 'classnames';
+// import classNames from 'classnames';
+
+import TextField from 'components/elements/TextField';
 
 const validate = (values) => {
   const errors = {};
@@ -23,47 +25,37 @@ const warn = (values) => {
   return warnings;
 };
 
-const renderField = (
-  { input, name, label, type, meta: { touched, error, warning } }
-) => (
-  <div className={classNames('ui field', { error })}>
-    <label htmlFor={name}>{label}</label>
-    <input className="ui input" {...input} type={type} name={name} />
-    {touched && ((error && (
-      <div className="ui red label">{error}</div>
-    ) || (warning && (
-      <div className="ui yellow label">{warning}</div>
-    ))))}
-  </div>
-);
-
 const EditPostForm = ({ handleSubmit, pristine, submitting, reset }) => (
   <form onSubmit={handleSubmit} className="ui form">
-    <Field label="Заголовок" component={renderField} type="text" name="title" />
-    <Field title="Дата создания" component={renderField} type="text" name="created" />
-    <Field label="Автор" component={renderField} type="text" name="author" />
-    {(!pristine && !submitting) && <button className="ui button" onClick={reset}>Очистить</button>}
+    <Field label="Заголовок" component={TextField} name="title" />
+    <Field label="Дата создания" component={TextField} name="created" />
+    <Field label="Автор" component={TextField} name="author" />
+    {(!pristine && !submitting) &&
+      <button className="ui button" onClick={reset}>Очистить</button>}
     <input type="submit" className="ui button primary" value="Обновить" />
   </form>
 );
 
 EditPostForm.propTypes = {
-  handleSubmit: PropTypes.func
+  handleSubmit: PropTypes.func,
+  pristine: PropTypes.bool,
+  submitting: PropTypes.bool,
+  reset: PropTypes.bool
 };
 
 const sleep = ms => new Promise(
   resolve => setTimeout(resolve, ms)
 );
 
-const submit = (values) => {
-  return sleep(1000).then(() => {
-    if (!values.author) {
-      throw new SubmissionError({ author: 'Не указан автор' });
-    } else {
+const submit = (values) => (
+  sleep(1000).then(() => {
+    if (values.author) {
       alert(JSON.stringify(values));
+    } else {
+      throw new SubmissionError({ author: 'Не указан автор' });
     }
-  });
-};
+  })
+);
 
 export default connect(
   (state) => ({
