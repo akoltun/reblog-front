@@ -1,19 +1,18 @@
 import React from 'react';
 
-import { Segment, Header as SemanticHeader, Icon } from 'semantic-ui-react';
+import { Header as SemanticHeader, Menu } from 'semantic-ui-react';
 import Link from 'components/elements/Link';
 
-import { aboutPath } from 'helpers/routes';
+import { contactsPath, aboutPath } from 'helpers/routes';
 
 const Header = () => (
-  <Segment textAlign='center'>
-    <SemanticHeader>
-      <Link to='/'>Фрэймворк блог</Link>
-      &nbsp;
-      <Icon name='newspaper' />
-      <Link to={aboutPath()}>О блоге</Link>
-    </SemanticHeader>
-  </Segment>
+  <SemanticHeader>
+    <Menu>
+      <Menu.Item><Link to='/'>Фрэймворк блог</Link></Menu.Item>
+      <Menu.Item><Link to={contactsPath()}>Обратная связь</Link></Menu.Item>
+      <Menu.Item><Link to={aboutPath()}>О блоге</Link></Menu.Item>
+    </Menu>
+  </SemanticHeader>
 );
 
 export default Header;
